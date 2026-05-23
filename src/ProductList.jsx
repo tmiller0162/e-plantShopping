@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./ProductList.css";
 import CartItem from "./CartItem";
 import ProductCard from "./ProductCard.jsx";
+import { addItem } from "./CartSlice";
+import { useDispatch } from "react-redux";
 function ProductList({ onHomeClick }) {
+  const dispatch = useDispatch();
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+  const [plantsInCart, setPlantsInCart] = useState({});
 
   const plantsArray = [
     {
@@ -288,6 +292,14 @@ function ProductList({ onHomeClick }) {
     e.preventDefault();
     setShowCart(false);
   };
+
+  const handleAddToCart = (plant) => {
+    dispatch(addItem(plant));
+    setPlantsInCart((prevState) => ({
+      ...prevState,
+      [plant.name]: true,
+    }));
+  };
   return (
     <div>
       <div className="navbar" style={styleObj}>
@@ -348,7 +360,12 @@ function ProductList({ onHomeClick }) {
               <h1>{category.category}</h1>
               <div className="product-list">
                 {category.plants.map((plant, index) => (
-                  <ProductCard {...plant} plant={plant} key={index} />
+                  <ProductCard
+                    {...plant}
+                    plant={plant}
+                    onAddToCart={handleAddToCart}
+                    key={index}
+                  />
                 ))}
               </div>
             </div>
