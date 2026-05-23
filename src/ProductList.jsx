@@ -6,6 +6,7 @@ import { addItem } from "./CartSlice";
 import { useDispatch } from "react-redux";
 function ProductList({ onHomeClick }) {
   const dispatch = useDispatch();
+  // This state is not properly managed, integrate with redux?
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const [plantsInCart, setPlantsInCart] = useState({});
@@ -348,6 +349,7 @@ function ProductList({ onHomeClick }) {
                     id="mainIconPathAttribute"
                   ></path>
                 </svg>
+                {Object.keys(plantsInCart).length}
               </h1>
             </a>
           </div>
