@@ -1,4 +1,5 @@
-export default function ProductCard({ name, image, description, cost, plant, onAddToCart }) {
+export default function ProductCard({ plant, onAddToCart }) {
+  let { name, image, description, cost } = { ...plant };
   return (
     <div className="product-card">
       <div className="product-title">{name}</div>

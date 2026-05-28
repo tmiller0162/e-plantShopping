@@ -3,13 +3,13 @@ import "./ProductList.css";
 import CartItem from "./CartItem";
 import ProductCard from "./ProductCard.jsx";
 import { addItem } from "./CartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 function ProductList({ onHomeClick }) {
   const dispatch = useDispatch();
   // This state is not properly managed, integrate with redux?
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-  const [plantsInCart, setPlantsInCart] = useState({});
+  const cart = useSelector((state) => state.cart.items);
 
   const plantsArray = [
     {
@@ -296,10 +296,6 @@ function ProductList({ onHomeClick }) {
 
   const handleAddToCart = (plant) => {
     dispatch(addItem(plant));
-    setPlantsInCart((prevState) => ({
-      ...prevState,
-      [plant.name]: true,
-    }));
   };
   return (
     <div>
@@ -349,7 +345,7 @@ function ProductList({ onHomeClick }) {
                     id="mainIconPathAttribute"
                   ></path>
                 </svg>
-                {Object.keys(plantsInCart).length}
+                {cart.length}
               </h1>
             </a>
           </div>
@@ -363,7 +359,6 @@ function ProductList({ onHomeClick }) {
               <div className="product-list">
                 {category.plants.map((plant, index) => (
                   <ProductCard
-                    {...plant}
                     plant={plant}
                     onAddToCart={handleAddToCart}
                     key={index}
